@@ -13,5 +13,6 @@ def main():
     json_io.write_json_file(DEFAULT_JSON_FILENAME, comp_list)
     get_minimum_build(comp_list)
 
-if __name__ == "__main__":
-    main()
+
+    
+main()
