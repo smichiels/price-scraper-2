@@ -1,4 +1,4 @@
-# price_scraper2
+# Price Scaper 2
 New component price tracker, with a new approach and various fixes and upgrades. 
 
 This is a small project of a price scraper for PC componentes sold in Amazon, PCC and Coolmod. 
