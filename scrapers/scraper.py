@@ -1,6 +1,4 @@
 
-
-
 class GenericScraper():
     def __init__(self, object_list, store):
         self.object_list = object_list
