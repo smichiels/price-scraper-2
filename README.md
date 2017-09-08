@@ -1,4 +1,4 @@
-# Price Scaper 2
+# Price Scraper 2
 New component price tracker, with a new approach and various fixes and upgrades. 
 
 This is a small project of a price scraper for PC componentes sold in Amazon, PCC and Coolmod. 
@@ -9,9 +9,8 @@ As stated before, the scraper uses a JSON file in order to read and store the in
 
 There's a JSON template in the project for the components list file, file that should be placed in the root root folder of the project. File route can be changed in the configuration file. 
 
-<br>
 The required IDs for every store are: 
-
+----------------
 <b> Amazon </b>
   - The string of numbers and letters that appears on every product url -- similar to "B073BVHY3F"
 
