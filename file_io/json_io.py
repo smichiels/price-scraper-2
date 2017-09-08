@@ -8,6 +8,6 @@ def read_json_file(filename):
 
 def write_json_file(filename, data):
     with open(filename, 'w') as data_file:
-        json.dump(data, data_file)
+        json.dump(data, fp=data_file, indent=2)
     print("\nDone! ")
     return data

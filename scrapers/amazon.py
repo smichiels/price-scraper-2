@@ -3,11 +3,14 @@ import requests
 
 from lxml import html
 
+from scrapers.scraper import GenericScraper
 from config.xpath_routes import AMAZON_XPATH_PRICE
 
-class AmazonParser():
+
+class AmazonScraper(GenericScraper):
+
     def __init__(self, object_list):
-        self.object_list = object_list
+        super().__init__(object_list, "amazon")
 
     def parse_urls(self):
         for obj in self.object_list:
@@ -20,11 +23,7 @@ class AmazonParser():
                 sleep(1)
                 doc = html.fromstring(page.content)
                 new_price = float(doc.xpath(AMAZON_XPATH_PRICE)[0].replace('EUR', '').replace(',','.').strip())
-                if obj["prices"]["amazon_price"] is not None:
-                    obj["prices"]["last_amazon_price"] =  obj["prices"]["amazon_price"]
-                else:
-                    obj["prices"]["last_amazon_price"] = new_price
-                obj["prices"]["amazon_price"] = new_price
+                self.update_price(obj, new_price)
             except IndexError as e:
                 print(f"Problem getting Amazon price of {obj['name']}, please check manually")
             except ValueError as e:

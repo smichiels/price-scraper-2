@@ -17,4 +17,4 @@ def get_minimum_build(obj_list):
     for comp in final_component_list:
         print(f"Comprar {comp.name} en {comp.store.replace('_price', '')}")
         total = total + comp.price
-    print(f"Total: {total}")
+    print(f"Total: {'%.2f' %total}€")

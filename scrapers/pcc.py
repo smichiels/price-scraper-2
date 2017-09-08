@@ -3,11 +3,14 @@ import requests
 
 from lxml import html
 
+from scrapers.scraper import GenericScraper
 from config.xpath_routes import PCC_XPATH_PRICE
 
-class PccParser():
+
+class PccScraper(GenericScraper):
+
     def __init__(self, object_list):
-        self.object_list = object_list
+        super().__init__(object_list, "pcc")
 
     def parse_urls(self):
         for obj in self.object_list:
@@ -20,11 +23,7 @@ class PccParser():
                 sleep(1)
                 doc = html.fromstring(page.content)
                 new_price = float(doc.xpath(PCC_XPATH_PRICE)[0].attrib["data-baseprice"])
-                if obj["prices"]["pcc_price"] is not None:
-                    obj["prices"]["last_pcc_price"] =  obj["prices"]["pcc_price"] 
-                else:
-                    obj["prices"]["last_pcc_price"] = new_price
-                obj["prices"]["pcc_price"] = new_price
+                self.update_price(obj, new_price)
             except IndexError as e:
                 print(f"Problem getting PCC price of {obj['name']}, please check manually")
             except ValueError as e:
