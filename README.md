@@ -7,7 +7,7 @@ The idea of the project is to have a tool that given a small JSON file with just
 
 As stated before, the scraper uses a JSON file in order to read and store the information as well as lxml and custom XPATH for each store in order to get the required information for the scraper to do its job.
 
-There's a JSON template in the project for the components list file, file that should be placed in the root root folder of the project. File route can be changed in the configuration file. 
+There's a JSON template in the project for the components list file, file that should be placed in the root folder of the project. File route can be changed in the configuration file. 
 
 The required IDs for every store are: 
 ----------------
