@@ -1,10 +1,10 @@
 from time import sleep
-import requests
 
+import requests
 from lxml import html
 
-from scrapers.scraper import GenericScraper
 from config.xpath_routes import PCC_XPATH_PRICE
+from scrapers.scraper import GenericScraper
 
 
 class PccScraper(GenericScraper):
