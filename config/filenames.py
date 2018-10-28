@@ -1,1 +1,1 @@
-DEFAULT_JSON_FILENAME = "componentes.json"
+DEFAULT_JSON_FILENAME = "json_template.json"
