@@ -3,7 +3,7 @@ from time import sleep
 import requests
 from lxml import html
 
-from config.xpath_routes import COOLMOD_XPATH_PRICE
+from constants import COOLMOD_XPATH_PRICE
 from scrapers.scraper import GenericScraper
 
 
