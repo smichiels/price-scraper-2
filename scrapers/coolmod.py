@@ -1,30 +1,39 @@
-from time import sleep
+import logging
 
+import pandas as pd
 import requests
-from lxml import html
+from bs4 import BeautifulSoup as bs
 
-from constants import COOLMOD_XPATH_PRICE
-from scrapers.scraper import GenericScraper
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.INFO)
 
 
-class CoolmodScraper(GenericScraper):
+class CoolmodScraper:
+    @staticmethod
+    def get_coolmod_price(url):
+        if pd.isna(url):
+            return None
+        headers = {"User-Agent": "Magic Browser"}
+        try:
+            with requests.Session() as session:
+                response = session.get(url, headers=headers)
+                response.raise_for_status()
+                soup = bs(response.content, "lxml")
+                price_element = soup.find(class_="fixedbuybtnfinalprice")
+                if price_element:
+                    price_text = price_element.get_text().replace(",", ".").replace("€", "")
+                    logger.info(f"Parsed price {price_text} - {url}")
+                    return float(price_text)
+            logger.info(f"No price found - {url}")
+            return None
+        except requests.exceptions.RequestException as e:
+            logger.exception(f"Error en la solicitud web {url}: {e}")
+            return None
+        except Exception as e:
+            logger.exception(f"Error al obtener el precio de Coolmod para {url}: {e}")
+            return None
 
-    def __init__(self, object_list):
-        super().__init__(object_list, "coolmod")
-
-    def parse_urls(self):
-        for obj in self.object_list:
-            url = f'http://www.coolmod.com/{obj["ids"]["coolmod_id"]}/'
-            headers = {'User-Agent': 'Magic Browser'}
-            try:
-                page = requests.get(url, headers=headers)
-                if page.status_code != 200:
-                    raise ValueError(f'Error in web request - Coolmod - Product {obj["name"]} - {page.status_code}')
-                sleep(1)
-                doc = html.fromstring(page.content)
-                new_price = float(doc.xpath(COOLMOD_XPATH_PRICE)[0].replace('€', '').replace(',','.').strip())
-                self.update_price(obj, new_price)
-            except IndexError as e:
-                print(f"Problem getting Coolmod price of {obj['name']}, please check manually")
-            except ValueError as e:
-                print(str(e))
+    def parse_urls(self, urls):
+        result = [self.get_coolmod_price(url) for url in urls]
+        return result

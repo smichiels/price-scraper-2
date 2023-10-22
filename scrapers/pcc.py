@@ -45,7 +45,7 @@ class PccScraper:
             logger.exception(f"Error en la solicitud web {url}: {e}")
             return None
         except Exception as e:
-            logger.exception(f"Error al obtener el precio de Amazon para {url}: {e}")
+            logger.exception(f"Error al obtener el precio de PCC para {url}: {e}")
             return None
 
     def parse_urls(self, urls):

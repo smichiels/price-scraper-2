@@ -10,29 +10,28 @@ logger.setLevel(logging.INFO)
 
 
 class AmazonScraper:
-
     @staticmethod
     def get_amazon_price(url):
         if pd.isna(url):
             return None
-        headers = {'User-Agent': 'Magic Browser'}
+        headers = {"User-Agent": "Magic Browser"}
         try:
             with requests.Session() as session:
                 response = session.get(url, headers=headers)
                 response.raise_for_status()
                 soup = bs(response.content, "lxml")
 
-                seller_element = soup.find(id='sellerProfileTriggerId')
+                seller_element = soup.find(id="sellerProfileTriggerId")
                 if seller_element:
                     logger.info(f"No price for seller Amazon - {url}")
                     return None
 
-                price_element = soup.find(class_='a-price-whole')
+                price_element = soup.find(class_="a-price-whole")
                 if price_element:
-                    price_text = price_element.get_text().replace(',', '')
-                    decimal_element = soup.find(class_='a-price-fraction')
+                    price_text = price_element.get_text().replace(",", "")
+                    decimal_element = soup.find(class_="a-price-fraction")
                     if decimal_element:
-                        price_text += '.' + decimal_element.get_text()
+                        price_text += "." + decimal_element.get_text()
                     logger.info(f"Parsed price {price_text} - {url}")
                     return float(price_text)
                 logger.info(f"No price found - {url}")
