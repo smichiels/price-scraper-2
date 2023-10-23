@@ -7,8 +7,6 @@ from scrapers.pcc import PccScraper
 CSV_FILE = "./components.csv"
 
 
-
-
 def main():
     df_comp = pd.read_csv(CSV_FILE, index_col="component", sep=";")
     df_prices = pd.DataFrame(columns=df_comp.columns, index=df_comp.index)

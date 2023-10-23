@@ -19,7 +19,7 @@ class AmazonScraper:
             with requests.Session() as session:
                 response = session.get(url, headers=headers)
                 response.raise_for_status()
-                soup = bs(response.content, "lxml")
+                soup = bs(response.content, "html.parser")
 
                 seller_element = soup.find(id="sellerProfileTriggerId")
                 if seller_element:

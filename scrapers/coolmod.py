@@ -19,7 +19,7 @@ class CoolmodScraper:
             with requests.Session() as session:
                 response = session.get(url, headers=headers)
                 response.raise_for_status()
-                soup = bs(response.content, "lxml")
+                soup = bs(response.content, "html.parser")
                 price_element = soup.find(class_="fixedbuybtnfinalprice")
                 if price_element:
                     price_text = price_element.get_text().replace(",", ".").replace("€", "")

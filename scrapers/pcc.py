@@ -22,7 +22,7 @@ class PccScraper:
             with requests.Session() as session:
                 response = session.get(base_url + url, headers=headers)
                 response.raise_for_status()
-                soup = bs(response.content, "lxml")
+                soup = bs(response.content, "html.parser")
                 price_element = soup.find(id="pdp-price-current-integer")
                 if price_element:
                     price_text = price_element.get_text().replace("€", "").replace(",", ".")
