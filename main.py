@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 
 from scrapers.amazon import AmazonScraper
@@ -5,6 +7,9 @@ from scrapers.coolmod import CoolmodScraper
 from scrapers.pcc import PccScraper
 
 CSV_FILE = "./components.csv"
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.INFO)
 
 
 def main():
@@ -13,7 +18,10 @@ def main():
     scrapers_dict = {"amazon": AmazonScraper(), "pcc": PccScraper(), "coolmod": CoolmodScraper()}
     for tienda in df_comp.columns:
         df_prices[tienda] = scrapers_dict[tienda].parse_urls(df_comp[tienda].values)
-    print(df_prices)
+    df_prices.fillna(99999, inplace=True)
+    df_build = pd.DataFrame({'store': df_prices.idxmin(axis=1), 'price': df_prices.min(axis=1)})
+    logger.info("Best affordable build: ")
+    logger.info(df_build)
 
 
 if __name__ == "__main__":
